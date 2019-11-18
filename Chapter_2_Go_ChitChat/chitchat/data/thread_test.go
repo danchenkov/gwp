@@ -9,7 +9,7 @@ import (
 func ThreadDeleteAll() (err error) {
 	db := db()
 	defer db.Close()
-	statement := "delete from threads"
+	statement := "DELETE FROM threads"
 	_, err = db.Exec(statement)
 	if err != nil {
 		return

@@ -23,7 +23,7 @@ type Session struct {
 
 // Create a new session for an existing user
 func (user *User) CreateSession() (session Session, err error) {
-	statement := "insert into sessions (uuid, email, user_id, created_at) values ($1, $2, $3, $4) returning id, uuid, email, user_id, created_at"
+	statement := "INSERT INTO sessions (uuid, email, user_id, created_at) VALUES ($1, $2, $3, $4) RETURNING id, uuid, email, user_id, created_at"
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
 		return
@@ -58,7 +58,7 @@ func (session *Session) Check() (valid bool, err error) {
 
 // Delete session from database
 func (session *Session) DeleteByUUID() (err error) {
-	statement := "delete from sessions where uuid = $1"
+	statement := "DELETE FROM sessions WHERE uuid = $1"
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
 		return
@@ -89,7 +89,7 @@ func (user *User) Create() (err error) {
 	// Postgres does not automatically return the last insert id, because it would be wrong to assume
 	// you're always using a sequence.You need to use the RETURNING keyword in your insert to get this
 	// information from postgres.
-	statement := "insert into users (uuid, name, email, password, created_at) values ($1, $2, $3, $4, $5) returning id, uuid, created_at"
+	statement := "INSERT INTO USERS (uuid, name, email, password, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING id, uuid, created_at"
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
 		return
@@ -103,7 +103,7 @@ func (user *User) Create() (err error) {
 
 // Delete user from database
 func (user *User) Delete() (err error) {
-	statement := "delete from users where id = $1"
+	statement := "DELETE FROM users WHERE id = $1"
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
 		return
@@ -116,7 +116,7 @@ func (user *User) Delete() (err error) {
 
 // Update user information in the database
 func (user *User) Update() (err error) {
-	statement := "update users set name = $2, email = $3 where id = $1"
+	statement := "UPDATE USERS SET name = $2, email = $3 WHERE id = $1"
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
 		return
